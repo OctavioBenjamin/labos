@@ -5,7 +5,7 @@
 1. Entrar a admin
 2. Darle permisos sudo a laboratorio
 	```sh
-	sudo bash addSudo.sh
+	sudo bash sudo-add.sh
 	```
 3. Iniciar laboratorio
 4. Instalar git si hace falta
@@ -23,7 +23,7 @@
 	```
 8. Volver a admin y sacarle permisos sudo a laboratorio
 	```sh
-	sudo bash removeSudo.sh
+	sudo bash sudo-remove.sh
 	```
 
 ### Recordar
@@ -34,4 +34,4 @@
 ### Mantenimiento general
 ```sh
 sudo sh mantenimiento-general.sh 
-	```
+```
