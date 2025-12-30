@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Exec=/home/laboratorio/Documents/Work/laboratorio-setup/firefox.sh
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
-Name=Abrir Firefox en inicio
-Comment=Abrir Firefox automáticamente al iniciar sesión

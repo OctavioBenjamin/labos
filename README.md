@@ -30,3 +30,8 @@
 1. Descargar infostat y Dejarlo en la carpeta Descargas
 2. Nombrarlo como infostatinstaller_esp.exe
 3. Con Alt + Ctrl + F3 (F2, F4... depende el caso) se puede cambiar entre admin y laboratorio con mas facilidad.
+
+### Mantenimiento general
+```sh
+sudo sh mantenimiento-general.sh 
+	```

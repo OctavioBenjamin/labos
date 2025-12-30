@@ -1,4 +1,10 @@
 #! /bin/bash
+echo "Actualizacion completa del sistema"
+apt update
+
+echo
+echo "Se completo la actualizacion de paquetes"
+echo
 
 ########################################################
 # Quitar suspension de pantalla
@@ -7,18 +13,8 @@ gsettings set org.gnome.desktop.session idle-delay 0
 gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'
 
-
 USUARIO="laboratorio"
 HOME_USUARIO="/home/$USUARIO"
-
-#ADMINNAME="admin"
-
-# 1) crear usuario con home y bash
-#useradd -m -s /bin/bash "$ADMINNAME"
-
-# 2) añadir al grupo sudo
-#usermod -aG sudo "$ADMINNAME"
-
 
 if [ ! -d "$HOME_USUARIO" ]; then
 	echo
@@ -36,44 +32,34 @@ ESCRITORIO_DIR="$HOME_USUARIO/Escritorio"
 echo "USUARIO: $USUARIO"
 echo "Descargas: $DESCARGAS_DIR"
 
-########################################################
 # Instalacion de WINE
-########################################################
 echo "Instalando Wine..."
 dpkg --add-architecture i386
-apt update
 apt install -y wget gnupg2 software-properties-common
 
 mkdir -pm755 /etc/apt/keyrings
 wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
 wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources
 
-apt update
 apt install --install-recommends -y winehq-stable
 echo
-echo "✅ Wine instalado. Versión:"
+echo "Wine instalado."
 echo
-sudo -u "$USUARIO" wine --version
 
 
-########################################################
 # Instalacion de Libreoffice
-########################################################
+echo "Instalando libre office"
 apt install -y libreoffice
 
-########################################################
 # Instalacion de Evince
-########################################################
+echo "Instalando evince"
 apt install -y evince
 
-########################################################
 # Instalacion de p7zip y unzip
-########################################################
+echo "Instalando descrompresor de archivos"
 apt install -y p7zip-full unzip
 
-########################################################
 # Instalacion de infostat
-########################################################
 INFOSTAT_INSTALLER="$DESCARGAS_DIR/infostatinstaller_esp.exe"
 if [ -f "$INFOSTAT_INSTALLER" ]; then
 	echo
@@ -85,10 +71,7 @@ else
 fi
 
 
-########################################################
 # Crear accesos directos
-
-########################################################
 
 DESKTOP_DIR="$HOME/Escritorio"
 
