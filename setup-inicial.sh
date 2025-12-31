@@ -46,6 +46,9 @@ echo
 echo "Wine instalado."
 echo
 
+#Instalacion de curl
+echo "Instalacion de Curl"
+apt install -y curl
 
 # Instalacion de Libreoffice
 echo "Instalando libre office"
@@ -60,6 +63,9 @@ echo "Instalando descrompresor de archivos"
 apt install -y p7zip-full unzip
 
 # Instalacion de infostat
+# Me traigo el instalador con curl para asegurar que sea la ultima version disponible
+curl -L -o "$DESCARGAS_DIR/infostatinstaller_esp.exe" https://www.infostat.com.ar/descargas/demo/infostatinstaller_esp.exe
+
 INFOSTAT_INSTALLER="$DESCARGAS_DIR/infostatinstaller_esp.exe"
 if [ -f "$INFOSTAT_INSTALLER" ]; then
 	echo
