@@ -76,7 +76,10 @@ if [ -f "$INFOSTAT_INSTALLER" ]; then
   #Habilita el acceso grafico
   xhost +local:"$USUARIO" > /dev/null
 
-	sudo -u "$USUARIO" env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY wine "$INFOSTAT_INSTALLER"
+	echo "Inicializando Wine para el usuario $USUARIO (puede tardar unos minutos)..."
+	sudo -u "$USUARIO" wineboot --init
+	echo "Lanzando instalador de InfoStat..."
+	sudo -u "$USUARIO" env DISPLAY=$DISPLAY wine "$INFOSTAT_INSTALLER"
 else
 	echo "No se encontro el instalador en descargas"
 fi
