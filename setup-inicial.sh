@@ -65,12 +65,17 @@ apt install -y p7zip-full unzip
 # Instalacion de infostat
 # Me traigo el instalador con curl para asegurar que sea la ultima version disponible
 curl -L -o "$DESCARGAS_DIR/infostatinstaller_esp.exe" https://www.infostat.com.ar/descargas/demo/infostatinstaller_esp.exe
+chown "$HOME_USUARIO":"$USUARIO" "$DESCARGAS_DIR/infostatinstaller_esp.exe"
 
 INFOSTAT_INSTALLER="$DESCARGAS_DIR/infostatinstaller_esp.exe"
 if [ -f "$INFOSTAT_INSTALLER" ]; then
 	echo
 	echo "Instalador encontrado en descargas"
  	echo
+
+  #Habilita el acceso grafico
+  xhost +local:"$USUARIO" > /dev/null
+
 	sudo -u "$USUARIO" env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY wine "$INFOSTAT_INSTALLER"
 else
 	echo "No se encontro el instalador en descargas"
