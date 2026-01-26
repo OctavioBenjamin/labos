@@ -1,10 +1,4 @@
 #! /bin/bash
-echo "Actualizacion completa del sistema"
-apt update
-
-echo
-echo "Se completo la actualizacion de paquetes"
-echo
 
 ########################################################
 # Quitar suspension de pantalla
@@ -44,6 +38,13 @@ wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists
 apt install --install-recommends -y winehq-stable
 echo
 echo "Wine instalado."
+echo
+
+echo "Actualizacion completa del sistema"
+apt update
+
+echo
+echo "Se completo la actualizacion de paquetes"
 echo
 
 #Instalacion de curl
