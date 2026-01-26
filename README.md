@@ -1,37 +1,35 @@
-# Setup basico para laboratorio
-
-# NUEVOS PASOS
-
-1. Entrar a admin
-2. Darle permisos sudo a laboratorio
-	```sh
-	sudo bash sudo-add.sh
-	```
-3. Iniciar laboratorio
-4. Instalar git si hace falta
-	```sh
-	sudo apt install git
-	```
-5. Descargar infostat en descargas
-6. Clonar el repo
-	```sh
-	git clone https://github.com/octaviobenjamin/laboratorio-setup
-	```
-7. Ejectuar el nuevo script
-	```sh
-	sudo bash nuevo-instalador.sh
-	```
-8. Volver a admin y sacarle permisos sudo a laboratorio
-	```sh
-	sudo bash sudo-remove.sh
-	```
-
-### Recordar
-1. Descargar infostat y Dejarlo en la carpeta Descargas
-2. Nombrarlo como infostatinstaller_esp.exe
-3. Con Alt + Ctrl + F3 (F2, F4... depende el caso) se puede cambiar entre admin y laboratorio con mas facilidad.
-
-### Mantenimiento general
+# Instrucciones para Setup Inicial de un Equipo.
+1. Iniciar la instacion de Ubuntu 24.04
+2. Crear el usuario **"laboratorio"** con password e indicar que no la pida al iniciar.
+3. Una vez iniciado el sistema, instalar **git**
 ```sh
-sudo sh mantenimiento-general.sh 
+sudo apt install git
+```
+4. Clonar el repositorio
+```sh
+git clone https://github.com/octaviobenjamin/labos
+```
+5. Moverse a la carpeta
+```sh
+cd labos/
+```
+6. Iniciar el setup inicial del equipo.
+```bash
+sudo bash setup-inicial.sh
+```
+> [!WARNING]
+> En Caso de fallar infostat en la instalacion, volver a lanzar el script.
+7. Configurar los usuarios. Va a pedir que ingrese la password a mano.
+```sh
+sudo bash add-admin.sh
+```
+8. Reiniciar con `reboot`
+# Mantenimiento general
+1. Clonar el repositorio
+```sh
+git clone https://github.com/octaviobenjamin/labos
+```
+2. Ejecutar el script correspondiente.
+```sh
+sudo bash mantenimiento-general.sh
 ```
