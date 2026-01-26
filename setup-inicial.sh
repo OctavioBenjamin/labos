@@ -35,16 +35,13 @@ mkdir -pm755 /etc/apt/keyrings
 wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
 wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources
 
+
+echo "Actualizando paquetes para wine..."
+apt update
+
 apt install --install-recommends -y winehq-stable
 echo
 echo "Wine instalado."
-echo
-
-echo "Actualizacion completa del sistema"
-apt update
-
-echo
-echo "Se completo la actualizacion de paquetes"
 echo
 
 #Instalacion de curl
