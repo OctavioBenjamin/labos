@@ -1,4 +1,12 @@
 #! /bin/bash
+########################################################
+# Proyecto: Labos - Automatización de Laboratorio
+# Autores: 
+# Octavio Benjamin - GitHub: https://github.com/OctavioBenjamin/labos
+# Zoi Lypnik - Github: https://github.com/ZoiLyp
+# Descripción: Configuración de Ubuntu para Psicología UNC
+########################################################
+
 
 ########################################################
 # Quitar suspension de pantalla

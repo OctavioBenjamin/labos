@@ -1,4 +1,11 @@
 #!/bin/bash
+########################################################
+# Proyecto: Labos - Automatización de Laboratorio
+# Autores: 
+# Octavio Benjamin - GitHub: https://github.com/OctavioBenjamin/labos
+# Zoi Lypnik - Github: https://github.com/ZoiLyp
+# Descripción: Configuración de Ubuntu para Psicología UNC
+########################################################
 
 # 1. Pedir contraseña para el nuevo usuario admin
 read -s -p "Introduce la contraseña para el usuario admin: " password
