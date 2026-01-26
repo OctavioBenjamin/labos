@@ -1,5 +1,5 @@
 # Instrucciones para Setup Inicial de un Equipo.
-1. Iniciar la instacion de Ubuntu 24.04
+1. Iniciar la instalacion de Ubuntu 24.04
 2. Crear el usuario **"laboratorio"** con password e indicar que no la pida al iniciar.
 3. Una vez iniciado el sistema, instalar **git**
 ```sh
@@ -33,3 +33,8 @@ git clone https://github.com/octaviobenjamin/labos
 ```sh
 sudo bash mantenimiento-general.sh
 ```
+
+
+## ✍️ Autores
+* **Octavio Mendez** - [OctavioBenjamin](https://github.com/OctavioBenjamin)
+* **Zoi Lypnik** - [ZoiLyp](https://github.com/ZoiLyp)
