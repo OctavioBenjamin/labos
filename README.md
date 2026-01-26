@@ -33,3 +33,8 @@ git clone https://github.com/octaviobenjamin/labos
 ```sh
 sudo bash mantenimiento-general.sh
 ```
+
+
+## ✍️ Autores
+* **Octavio Mendez** - [OctavioBenjamin](https://github.com/OctavioBenjamin)
+* **Zoi Lypnik** - [ZoiLip](https://github.com/ZoiLyp)
