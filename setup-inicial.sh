@@ -116,5 +116,3 @@ Type=Application
 Categories=Office;
 EOL
 chmod +x "$LIBREOFFICE_DESKTOP"
-
-sudo passwd -d "$USUARIO"
