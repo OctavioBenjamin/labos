@@ -63,7 +63,7 @@ apt install -y p7zip-full unzip
 # Instalacion de infostat
 # Me traigo el instalador con curl para asegurar que sea la ultima version disponible
 curl -L -o "$DESCARGAS_DIR/infostatinstaller_esp.exe" https://www.infostat.com.ar/descargas/demo/infostatinstaller_esp.exe
-chown "$HOME_USUARIO":"$USUARIO" "$DESCARGAS_DIR/infostatinstaller_esp.exe"
+chown "$USUARIO":"$USUARIO" "$DESCARGAS_DIR/infostatinstaller_esp.exe"
 
 INFOSTAT_INSTALLER="/home/$USUARIO/Descargas/infostatinstaller_esp.exe"
 chown "$USUARIO":"$USUARIO" "$INFOSTAT_INSTALLER"
