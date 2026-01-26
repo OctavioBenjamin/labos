@@ -67,7 +67,8 @@ apt install -y p7zip-full unzip
 curl -L -o "$DESCARGAS_DIR/infostatinstaller_esp.exe" https://www.infostat.com.ar/descargas/demo/infostatinstaller_esp.exe
 chown "$HOME_USUARIO":"$USUARIO" "$DESCARGAS_DIR/infostatinstaller_esp.exe"
 
-INFOSTAT_INSTALLER="$DESCARGAS_DIR/infostatinstaller_esp.exe"
+INFOSTAT_INSTALLER="/home/$USUARIO/Descargas/infostatinstaller_esp.exe"
+chown "$USUARIO":"$USUARIO" "$INFOSTAT_INSTALLER"
 if [ -f "$INFOSTAT_INSTALLER" ]; then
 	echo
 	echo "Instalador encontrado en descargas"
@@ -116,3 +117,42 @@ Type=Application
 Categories=Office;
 EOL
 chmod +x "$LIBREOFFICE_DESKTOP"
+
+# Acceso directo para la Calculadora de GNOME
+CALC_DESKTOP="$ESCRITORIO_DIR/Calculadora.desktop"
+cat > "$CALC_DESKTOP" <<EOL
+[Desktop Entry]
+Name=Calculadora
+Comment=Calculadora de Ubuntu
+Exec=gnome-calculator
+Icon=org.gnome.Calculator
+Terminal=false
+Type=Application
+Categories=Utility;
+EOL
+chmod +x "$CALC_DESKTOP"
+chown "$USUARIO":"$USUARIO" "$CALC_DESKTOP"
+
+
+
+
+# FIREFOX AUTOSTART
+
+# Crear carpeta de autostart si no existe
+AUTOSTART_DIR="$HOME_USUARIO/.config/autostart"
+sudo -u "$USUARIO" mkdir -p "$AUTOSTART_DIR"
+
+# Crear lanzador de Firefox
+FIREFOX_AUTOSTART="$AUTOSTART_DIR/firefox-aula-virtual.desktop"
+cat > "$FIREFOX_AUTOSTART" <<EOL
+[Desktop Entry]
+Type=Application
+Exec=firefox https://psicologia.aulavirtual.unc.edu.ar/
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Firefox Aula Virtual
+EOL
+
+# Ajustar permisos para el usuario
+chown "$USUARIO":"$USUARIO" "$FIREFOX_AUTOSTART"
