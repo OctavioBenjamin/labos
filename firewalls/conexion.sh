@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# -P                (Política) regla por defecto de una cadena entera
+# -A                Append: Añade la regla al final de la lista.
+# INPUT / OUTPUT    La dirección del tráfico (lo que entra o lo que sale).
+# -i / -o	        La interfaz de red (ej. lo para local, eth0 para internet).
+# -p tcp	        El protocolo utilizado (TCP es el estándar para conexiones estables).
+# --dport / --sport	Puerto de destino (destination) o puerto de origen (source).
+# -j ACCEPT	        La acción a tomar: Aceptar el paquete de datos.
+
 ACCION=$1
 
 case $ACCION in
