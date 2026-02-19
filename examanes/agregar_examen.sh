@@ -36,7 +36,7 @@ passwd -d examen
 
 # 5. Ejecutar tu script de bloqueos de Firefox
 if [ -f "examenes/conf_bloqueos.sh" ]; then
-    bash examenes/conf_bloqueos.sh
+    bash ./conf_bloqueos.sh
     echo "Bloqueos de Firefox aplicados."
 else
     echo "Error: No se encontró examenes/conf_bloqueos.sh"
