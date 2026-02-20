@@ -1,0 +1,18 @@
+{
+  "policies": {
+    "DisablePrivateBrowsing": true,
+    "DisableForgetButton": true,
+    "DisableHistoryImport": true,
+    "DisableSanitizeOnShutdown": true,
+    "SanitizeOnShutdown": false,
+    "Preferences": {
+      "privacy.cpd.cache": {"Value": false, "Status": "locked"},
+      "privacy.cpd.history": {"Value": false, "Status": "locked"},
+      "privacy.cpd.sessions": {"Value": false, "Status": "locked"},
+      "privacy.clearOnShutdown.cache": {"Value": false, "Status": "locked"},
+      "privacy.sanitize.sanitizeOnShutdown": {"Value": false, "Status": "locked"},
+      "browser.cache.disk.enable": {"Value": true, "Status": "locked"},
+      "browser.cache.memory.enable": {"Value": true, "Status": "locked"}
+    }
+  }
+}
