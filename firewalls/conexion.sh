@@ -1,55 +1,49 @@
 #!/bin/bash
 
-# -P                (Política) regla por defecto de una cadena entera
-# -A                Append: Añade la regla al final de la lista.
-# INPUT / OUTPUT    La dirección del tráfico (lo que entra o lo que sale).
-# -i / -o	        La interfaz de red (ej. lo para local, eth0 para internet).
-# -p tcp	        El protocolo utilizado (TCP es el estándar para conexiones estables).
-# --dport / --sport	Puerto de destino (destination) o puerto de origen (source).
-# -j ACCEPT	        La acción a tomar: Aceptar el paquete de datos.
+# 1. Obtener el UID del usuario laboratorio
+USER_NAME="laboratorio"
+USER_ID=$(id -u $USER_NAME 2>/dev/null)
+
+if [ -z "$USER_ID" ]; then
+    echo "Error: El usuario $USER_NAME no existe."
+    exit 1
+fi
 
 ACCION=$1
 
 case $ACCION in
     on)
-        # Desbloquear: Abrir todo
-        iptables -P INPUT ACCEPT
+        # Limpiar reglas específicas del usuario
+        iptables -D OUTPUT -m owner --uid-owner $USER_ID -j REJECT 2>/dev/null
+        # Aseguramos que la política global sea ACCEPT por si acaso
         iptables -P OUTPUT ACCEPT
-        iptables -F
-        echo "Internet habilitado."
+        echo "Internet habilitado para el usuario $USER_NAME."
         ;;
     off)
-        # Bloquear: Solo Intranet y SSH
-        iptables -F
-        iptables -P INPUT DROP
-        iptables -P OUTPUT DROP
+        # 1. Primero limpiamos reglas previas para no duplicar
+        iptables -D OUTPUT -m owner --uid-owner $USER_ID -j REJECT 2>/dev/null
         
-        # Loopback y SSH (Vital)
-        iptables -A INPUT -i lo -j ACCEPT
-        iptables -A OUTPUT -o lo -j ACCEPT
-        iptables -A INPUT -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
-        iptables -A OUTPUT -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+        # 2. PERMITIR: Intranet UNC
+        iptables -A OUTPUT -m owner --uid-owner $USER_ID -d 200.16.16.0/24 -j ACCEPT
         
-        # Intranet UNC y DNS
-        iptables -A OUTPUT -d 200.16.16.0/24 -j ACCEPT
-        iptables -A INPUT -s 200.16.16.0/24 -j ACCEPT
-        iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
-        iptables -A INPUT -p udp --sport 53 -j ACCEPT
+        # 3. PERMITIR: DNS (para que resuelva nombres de la intranet)
+        iptables -A OUTPUT -m owner --uid-owner $USER_ID -p udp --dport 53 -j ACCEPT
+        iptables -A OUTPUT -m owner --uid-owner $USER_ID -p tcp --dport 53 -j ACCEPT
+
+        # 4. BLOQUEAR: Todo lo demás para este usuario
+        iptables -A OUTPUT -m owner --uid-owner $USER_ID -j REJECT
         
-        echo "Internet bloqueado. Solo Intranet permitida."
+        echo "Internet bloqueado para $USER_NAME. Solo Intranet permitida."
         ;;
     status)
-        # Mostrar estado simple
-        POLITICA=$(iptables -L OUTPUT -n | grep "Chain OUTPUT" | awk '{print $4}')
-        if [ "$POLITICA" == "(policy" ]; then POLITICA=$(iptables -L OUTPUT -n | head -n 1 | awk '{print $4}'); fi
-        
-        if [ "$POLITICA" == "ACCEPT" ]; then
-            echo "Estado: TODO ABIERTO"
+        # Verificar si existe la regla de REJECT para ese UID
+        if iptables -L OUTPUT -n | grep -q "owner UID match $USER_ID reject"; then
+            echo "Estado para $USER_NAME: SOLO INTRANET"
         else
-            echo "Estado: SOLO INTRANET"
+            echo "Estado para $USER_NAME: TODO ABIERTO"
         fi
         ;;
     *)
-        echo "Uso: sudo bash internet.sh [on|off|status]"
+        echo "Uso: sudo bash $0 [on|off|status]"
         ;;
 esac
