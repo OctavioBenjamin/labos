@@ -1,11 +1,14 @@
 #!/bin/bash
 
-# 1. Obtener el UID del usuario laboratorio
-USER_NAME="laboratorio"
-USER_ID=$(id -u $USER_NAME 2>/dev/null)
+# --- VALIDACIÓN DE INSTALACIÓN ---
+if ! dpkg -l | grep -q iptables-persistent; then
+    echo "Servicio iptables-persistent no detectado. Instalando..."
+    sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y iptables-persistent
+fi
 
+# --- VALIDACIÓN DE USUARIO ---
 if [ -z "$USER_ID" ]; then
-    echo "Error: El usuario $USER_NAME no existe."
+    echo "Error: El usuario $USER_NAME no existe en esta máquina."
     exit 1
 fi
 
@@ -17,7 +20,8 @@ case $ACCION in
         iptables -D OUTPUT -m owner --uid-owner $USER_ID -j REJECT 2>/dev/null
         # Aseguramos que la política global sea ACCEPT por si acaso
         iptables -P OUTPUT ACCEPT
-        echo "Internet habilitado para el usuario $USER_NAME."
+        sudo netfilter-persistent save
+        echo "Internet HABILITADO y persistente para $USER_NAME."
         ;;
     off)
         # 1. Primero limpiamos reglas previas para no duplicar
@@ -33,14 +37,22 @@ case $ACCION in
         # 4. BLOQUEAR: Todo lo demás para este usuario
         iptables -A OUTPUT -m owner --uid-owner $USER_ID -j REJECT
         
-        echo "Internet bloqueado para $USER_NAME. Solo Intranet permitida."
+        sudo netfilter-persistent save
+        echo "Internet HABILITADO y persistente para $USER_NAME."        
         ;;
     status)
+        # Definición de colores
+        VERDE='\033[0;32m'
+        ROJO='\033[0;31m'
+        NC='\033[0m' # No Color (Reset)
+
         # Verificar si existe la regla de REJECT para ese UID
         if iptables -L OUTPUT -n | grep -q "owner UID match $USER_ID reject"; then
-            echo "Estado para $USER_NAME: SOLO INTRANET"
+            # ROJO para "Solo Intranet" (Acceso restringido)
+            echo -e "\nEstado para $USER_NAME: ${ROJO}SOLO INTRANET${NC}\n"
         else
-            echo "Estado para $USER_NAME: TODO ABIERTO"
+            # VERDE para "Todo Abierto" (Acceso libre)
+            echo -e "\nEstado para $USER_NAME: ${VERDE}TODO ABIERTO${NC}\n"
         fi
         ;;
     *)
