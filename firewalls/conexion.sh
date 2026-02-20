@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# --- CONFIGURACIÓN ---
+USER_NAME="laboratorio"
+USER_ID=$(id -u $USER_NAME 2>/dev/null)
+
 # --- VALIDACIÓN DE INSTALACIÓN ---
 if ! dpkg -l | grep -q iptables-persistent; then
     echo "Servicio iptables-persistent no detectado. Instalando..."
