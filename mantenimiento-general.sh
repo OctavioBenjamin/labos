@@ -27,7 +27,7 @@ echo "🚀 Iniciando mantenimiento..."
 
 # 1. Actualización
 apt update && apt full-upgrade -y
-
+apt --fix-broken install
 # 2. Quitar programas que ya no se usan
 echo "🧹 Eliminando restos de instalaciones viejas..."
 apt autoremove -y
