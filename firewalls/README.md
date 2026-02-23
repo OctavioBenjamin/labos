@@ -18,8 +18,6 @@ Este archivo funciona **por equipo** y mediante terminal. Recordar que siempre h
 * `internet-status`
 
 Cada uno de esos llama al comando `sudo ~/labos/firewalls/conexion.sh [OPCION]` respectivamente. No hace falta indicar la opción, simplemente incovando cada alias ya alcanza. 
-<<<<<<< HEAD
-=======
 
 ## Archivo conexion.sh
 Este archivo tiene varias partes:
@@ -38,5 +36,3 @@ Este archivo tiene varias partes:
 > Tenemos que averiguar a que otras paginas darle luz verde.
 
 > Hacer un instructivo para saber como agregar nuevas paginas y gestionar el repositorio.
-
->>>>>>> 99bdd0b (Se actualizo el README.md del firewall)
