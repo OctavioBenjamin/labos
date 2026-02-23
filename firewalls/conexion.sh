@@ -4,6 +4,24 @@
 USER_NAME="laboratorio"
 USER_ID=$(id -u $USER_NAME 2>/dev/null)
 
+# --- CONFIGURACIÓN DE ALIAS ---
+BASHRC_FILE="/home/admin/.bashrc"
+SCRIPT_PATH="/home/admin/labos/firewalls/conexion.sh"
+# Verificar si el alias ya existe para no duplicarlo
+if ! grep -q "alias internet-on=" "$BASHRC_FILE"; then
+    echo "Configurando alias en $BASHRC_FILE..."
+    {
+        echo ""
+        echo "# Alias para control de firewall Laboratorio"
+        echo "alias internet-on='sudo bash $SCRIPT_PATH on'"
+        echo "alias internet-off='sudo bash $SCRIPT_PATH off'"
+        echo "alias internet-status='sudo bash $SCRIPT_PATH status'"
+    } >> "$BASHRC_FILE"
+    
+    # Notificar al usuario que debe recargar el bashrc
+    echo "Alias creados. Ejecute 'source ~/.bashrc' para activarlos ahora."
+fi
+
 # --- VALIDACIÓN DE INSTALACIÓN ---
 if ! dpkg -l | grep -q iptables-persistent; then
     echo "Servicio iptables-persistent no detectado. Instalando..."
