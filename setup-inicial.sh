@@ -15,12 +15,12 @@ gsettings set org.gnome.desktop.session idle-delay 0
 gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'
 
-USUARIO="laboratorio"
+USUARIO=$1
 HOME_USUARIO="/home/$USUARIO"
 
 if [ ! -d "$HOME_USUARIO" ]; then
 	echo
-	echo "El usuario '$USUARIO' no existe en el ssitema"
+	echo "El usuario '$USUARIO' no existe en el sistema"
  	echo
 	exit 1
 else
