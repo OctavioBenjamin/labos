@@ -13,9 +13,9 @@ git clone https://github.com/octaviobenjamin/labos
 ```sh
 cd labos/
 ```
-6. Iniciar el setup inicial del equipo.
+6. Iniciar el setup inicial del equipo. Pasando por parametro el nombre de usuario
 ```bash
-sudo bash setup-inicial.sh
+sudo bash setup-inicial.sh [USUARIO]
 ```
 > [!WARNING]
 > En Caso de fallar infostat en la instalacion, volver a lanzar el script.
@@ -24,6 +24,17 @@ sudo bash setup-inicial.sh
 sudo bash add-admin.sh
 ```
 8. Reiniciar con `reboot`
+
+# Configuración de firewalls
+1. Dirigirse a la carpeta labos/firewalls
+2. Dentro hay un archivo que recibe una opción
+```sh
+sudo bash conexion.sh [on/off/status]
+```
+Luego de una primera ejecucución ya quedan establecidos los alias. 
+
+`internet-on` - `internet-off` - `internet-status`
+
 # Mantenimiento general
 1. Clonar el repositorio
 ```sh
@@ -33,7 +44,6 @@ git clone https://github.com/octaviobenjamin/labos
 ```sh
 sudo bash mantenimiento-general.sh
 ```
-
 
 ## ✍️ Autores
 * **Octavio Mendez** - [OctavioBenjamin](https://github.com/OctavioBenjamin)
