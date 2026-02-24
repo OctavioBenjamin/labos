@@ -43,7 +43,7 @@ case $ACCION in
         # Aseguramos que la política global sea ACCEPT por si acaso
         iptables -P OUTPUT ACCEPT
         sudo netfilter-persistent save
-        echo "Internet HABILITADO y persistente para $USER_NAME."
+        echo "Firewall DESACTIVADO para $USER_NAME."
         ;;
     off)
         # 1. Primero limpiamos reglas previas para no duplicar
@@ -60,7 +60,7 @@ case $ACCION in
         iptables -A OUTPUT -m owner --uid-owner $USER_ID -j REJECT
         
         sudo netfilter-persistent save
-        echo "Internet HABILITADO y persistente para $USER_NAME."        
+        echo "Firewall ACTIVADO para $USER_NAME."        
         ;;
     status)
         # Definición de colores
