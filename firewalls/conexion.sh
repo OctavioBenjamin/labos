@@ -3,30 +3,7 @@
 # --- CONFIGURACIÓN ---
 USER_NAME="laboratorio"
 USER_ID=$(id -u $USER_NAME 2>/dev/null)
-
-# --- CONFIGURACIÓN DE ALIAS ---
-BASHRC_FILE="/home/admin/.bashrc"
-SCRIPT_PATH="/home/admin/labos/firewalls/conexion.sh"
-# Verificar si el alias ya existe para no duplicarlo
-if ! grep -q "alias internet-on=" "$BASHRC_FILE"; then
-    echo "Configurando alias en $BASHRC_FILE..."
-    {
-        echo ""
-        echo "# Alias para control de firewall Laboratorio"
-        echo "alias internet-on='sudo bash $SCRIPT_PATH on'"
-        echo "alias internet-off='sudo bash $SCRIPT_PATH off'"
-        echo "alias internet-status='sudo bash $SCRIPT_PATH status'"
-    } >> "$BASHRC_FILE"
-    
-    # Notificar al usuario que debe recargar el bashrc
-    echo "Alias creados. Ejecute 'source ~/.bashrc' para activarlos ahora."
-fi
-
-# --- VALIDACIÓN DE INSTALACIÓN ---
-if ! dpkg -l | grep -q iptables-persistent; then
-    echo "Servicio iptables-persistent no detectado. Instalando..."
-    sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y iptables-persistent
-fi
+WHITELIST="/home/admin/labos/firewalls/whitelist.txt"
 
 # --- VALIDACIÓN DE USUARIO ---
 if [ -z "$USER_ID" ]; then
@@ -56,7 +33,17 @@ case $ACCION in
         iptables -A OUTPUT -m owner --uid-owner $USER_ID -p udp --dport 53 -j ACCEPT
         iptables -A OUTPUT -m owner --uid-owner $USER_ID -p tcp --dport 53 -j ACCEPT
 
-        # 4. BLOQUEAR: Todo lo demás para este usuario
+        # 4. Permitir por Whitelist dinamica
+        if [ -f "$WHITELIST" ]; then
+            for dominio in $(cat $WHITELIST | grep -v '^#'); do
+                ips=$(dig +short $dominio | grep -E '^[0-9.]+$')
+                for ip in $ips; do
+                    iptables -A OUTPUT -m owner --uid-owner $USER_ID -d $ip -j ACCEPT
+                done
+            done
+        fi
+
+        # 5. BLOQUEAR: Todo lo demás para este usuario
         iptables -A OUTPUT -m owner --uid-owner $USER_ID -j REJECT
         
         sudo netfilter-persistent save
