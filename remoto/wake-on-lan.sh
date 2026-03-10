@@ -1,4 +1,4 @@
-#!/ reorganization/bash
+#!/bin/bash
 
 # 1. Identificar la interfaz de red activa (excluyendo loopback y wifi)
 INTERFACE=$(ip -o link show | awk -F': ' '{print $2}' | grep -v 'lo' | grep -v 'wlan' | head -n 1)
