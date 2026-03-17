@@ -1,0 +1,5 @@
+# Ignorar carpeta de datos sensibles
+datos/
+*.txt
+!firewalls/whitelist.txt
+!README.md
