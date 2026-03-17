@@ -24,7 +24,7 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/sbin/ethtool -s $INTERFACE wol g
+ExecStart=/usr/sbin/ethtool -s $INTERFACE wol g
 
 [Install]
 WantedBy=multi-user.target
