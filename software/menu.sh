@@ -44,7 +44,26 @@ menu_energia() {
         if [ $? -ne 0 ]; then break; fi
         
         case "$CHOICE" in
-            1) show_msg "Enviando paquetes de encendido..." ;;
+            1) 
+		# Verificar si el archivo de MACs existe
+                if [ -f "../datos/MACs.txt" ]; then
+                    show_msg "Enviando paquetes de encendido..."
+                    
+                    # Leer el archivo línea por línea
+                    while IFS= read -r mac || [ -n "$mac" ]; do
+                        # Ignorar líneas vacías y comentarios (líneas que empiezan con #)
+                        if [[ -n "$mac" && ! "$mac" =~ ^# ]]; then
+                            # Enviar el paquete mágico silenciando la salida en consola
+                            wakeonlan "$mac" > /dev/null 2>&1
+                        fi
+                    done < "../datos/MACs.txt"
+                    
+                    whiptail --title "Éxito" --msgbox "Paquetes mágicos (WoL) enviados correctamente." 8 55
+                else
+                    whiptail --title "Error" --msgbox "No se encontró el archivo: ../datos/MACs.txt" 8 55
+                fi
+
+		;;
             2) show_msg "Iniciando secuencia de APAGADO remoto..." ;;
             3) show_msg "Iniciando REINICIO remoto..." ;;
             4) break ;;
