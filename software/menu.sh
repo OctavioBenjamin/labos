@@ -5,6 +5,7 @@ BASE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 CONEXION_SH="$BASE_DIR/firewalls/conexion.sh"
 WOL_SH="$BASE_DIR/remoto/wake-on-lan.sh"
+PRENDER_AULA_SH="$BASE_DIR/software/prender_aula.sh"
 IP_LIST="$BASE_DIR/datos/IPs.txt"
 MAC_LIST="$BASE_DIR/datos/MACs.txt"
 
@@ -45,25 +46,16 @@ menu_energia() {
         
         case "$CHOICE" in
             1) 
-		# Verificar si el archivo de MACs existe
-                if [ -f "../datos/MACs.txt" ]; then
-                    show_msg "Enviando paquetes de encendido..."
-                    
-                    # Leer el archivo línea por línea
-                    while IFS= read -r mac || [ -n "$mac" ]; do
-                        # Ignorar líneas vacías y comentarios (líneas que empiezan con #)
-                        if [[ -n "$mac" && ! "$mac" =~ ^# ]]; then
-                            # Enviar el paquete mágico silenciando la salida en consola
-                            wakeonlan "$mac" > /dev/null 2>&1
-                        fi
-                    done < "../datos/MACs.txt"
-                    
-                    whiptail --title "Éxito" --msgbox "Paquetes mágicos (WoL) enviados correctamente." 8 55
+                if [ -f "$PRENDER_AULA_SH" ]; then
+                    # Limpiar la pantalla antes para ver la salida del script de diagnóstico
+                    clear
+                    bash "$PRENDER_AULA_SH"
+                    echo ""
+                    read -p "Presione ENTER para volver al menú..."
                 else
-                    whiptail --title "Error" --msgbox "No se encontró el archivo: ../datos/MACs.txt" 8 55
+                    show_msg "Error: No se encontró el script de encendido en $PRENDER_AULA_SH"
                 fi
-
-		;;
+                ;;
             2) show_msg "Iniciando secuencia de APAGADO remoto..." ;;
             3) show_msg "Iniciando REINICIO remoto..." ;;
             4) break ;;
