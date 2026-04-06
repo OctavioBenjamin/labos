@@ -3,3 +3,8 @@ datos/
 *.txt
 !firewalls/whitelist.txt
 !README.md
+
+
+# Configuracion privada de Ansible
+hosts.ini
+ansible.cfg
