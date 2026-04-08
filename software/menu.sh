@@ -56,28 +56,46 @@ menu_energia() {
                     show_msg "Error: No se encontró el script de encendido en $PRENDER_AULA_SH"
                 fi
                 ;;
-            2) show_msg "Iniciando secuencia de APAGADO remoto..." ;;
+            2) 
+              ansible all -i /srv/labos/ansible/hosts.ini -m shell -a "sudo shutdown -h now" -u admin
+              ;;
             3) show_msg "Iniciando REINICIO remoto..." ;;
             4) break ;;
         esac
     done
 }
-
 menu_admin() {
+    INVENTORY="/srv/labos/ansible/hosts.ini"
+
     while true; do
         CHOICE=$(whiptail --title "Administración" --menu "Opciones de gestión:" 15 60 3 \
-            "1" "Ver lista de IPs/MACs" \
+            "1" "Ver estado de equipos (Ping)" \
             "2" "Volver al menú principal" 3>&1 1>&2 2>&3)
         
         if [ $? -ne 0 ]; then break; fi
         
         case "$CHOICE" in
             1)
-                if [ -f "$IP_LIST" ] && [ -f "$MAC_LIST" ]; then
-                    DATOS="IPs Registradas:\n$(cat "$IP_LIST")\n\nMACs Registradas:\n$(cat "$MAC_LIST")"
-                    whiptail --title "Inventario de Red" --scrolltext --msgbox "$DATOS" 20 65
+                if [ -f "$INVENTORY" ]; then
+                    # Cartel de espera mientras se procesan los pings
+                    whiptail --title "Escaneando Red" --infobox "Haciendo ping a los equipos...\nPor favor, esperá unos segundos. ⏳" 10 50
+                    
+                    # Generamos el texto con el estado capturando la salida del bucle
+                    ESTADO=$(
+                        echo -e "Estado actual de los equipos:\n"
+                        grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' "$INVENTORY" | sort -u | while read -r ip; do
+                            if ping -c 1 -W 1 "$ip" &> /dev/null; then
+                                echo "✅ ONLINE  - $ip"
+                            else
+                                echo "❌ OFFLINE - $ip"
+                            fi
+                        done
+                    )
+                    
+                    # Mostramos el resultado final
+                    whiptail --title "Inventario de Red" --scrolltext --msgbox "$ESTADO" 20 65
                 else
-                    show_msg "Error: No se encontraron los archivos de datos."
+                    whiptail --title "Error" --msgbox "No se encontró el inventario en $INVENTORY." 10 50
                 fi
                 ;;
             2) break ;;
