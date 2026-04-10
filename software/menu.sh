@@ -26,8 +26,12 @@ menu_firewall() {
         if [ $? -ne 0 ]; then break; fi
         
         case "$CHOICE" in
-            1) sudo bash "$CONEXION_SH" on; show_msg "Internet ACTIVADO." ;;
-            2) sudo bash "$CONEXION_SH" off; show_msg "Internet RESTRINGIDO." ;;
+            1) 
+              ansible all -i /srv/labos/ansible/hosts.ini -m shell -a "internet-on" -u admin
+	      ;;
+            2) 
+              ansible all -i /srv/labos/ansible/hosts.ini -m shell -a "internet-off" -u admin
+	      ;;
             3) STATUS=$(sudo bash "$CONEXION_SH" status); show_msg "Estado actual:\n$STATUS" ;;
             4) break ;;
         esac

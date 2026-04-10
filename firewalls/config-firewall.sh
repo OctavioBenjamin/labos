@@ -26,3 +26,9 @@ fi
 
 # 3. Configurar el Crontab automáticamente
 (sudo crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/admin/labos && git pull origin main && bash /home/admin/labos/firewalls/conexion.sh off") | sudo crontab -
+
+# --- CONFIGURAR PERMISOS PARA ALIAS ---
+echo "Configurando permisos de sudoers para los alias de firewall..."
+echo 'admin ALL=(ALL) NOPASSWD: /bin/bash /home/admin/labos/firewalls/conexion.sh *' | sudo tee /etc/sudoers.d/90-conexion > /dev/null
+sudo chmod 0440 /etc/sudoers.d/90-conexion
+echo "¡Permisos configurados con éxito!"
