@@ -27,10 +27,10 @@ menu_firewall() {
         
         case "$CHOICE" in
             1) 
-              ansible all -i /srv/labos/ansible/hosts.ini -m shell -a "internet-on" -u admin
+		ansible all -i /srv/labos/ansible/hosts.ini -m shell -a "sudo bash /home/admin/labos/firewalls/conexion.sh on" -u admin
 	      ;;
             2) 
-              ansible all -i /srv/labos/ansible/hosts.ini -m shell -a "internet-off" -u admin
+		ansible all -i /srv/labos/ansible/hosts.ini -m shell -a "sudo bash /home/admin/labos/firewalls/conexion.sh off" -u admin
 	      ;;
             3) STATUS=$(sudo bash "$CONEXION_SH" status); show_msg "Estado actual:\n$STATUS" ;;
             4) break ;;
