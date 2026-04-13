@@ -5,12 +5,6 @@ USER_NAME="laboratorio"
 USER_ID=$(id -u $USER_NAME 2>/dev/null)
 WHITELIST="/home/admin/labos/firewalls/whitelist.txt"
 
-# --- VALIDACIÓN DE USUARIO ---
-if [ -z "$USER_ID" ]; then
-    echo "Error: El usuario $USER_NAME no existe en esta máquina."
-    exit 1
-fi
-
 ACCION=$1
 
 case $ACCION in
@@ -19,7 +13,7 @@ case $ACCION in
         iptables -D OUTPUT -m owner --uid-owner $USER_ID -j REJECT 2>/dev/null
         # Aseguramos que la política global sea ACCEPT por si acaso
         iptables -P OUTPUT ACCEPT
-        sudo netfilter-persistent save
+        netfilter-persistent save
         echo "Firewall DESACTIVADO para $USER_NAME."
         ;;
     off)
@@ -40,13 +34,13 @@ case $ACCION in
                 for ip in $ips; do
                     iptables -A OUTPUT -m owner --uid-owner $USER_ID -d $ip -j ACCEPT
                 done
-            done
+           done
         fi
 
         # 5. BLOQUEAR: Todo lo demás para este usuario
         iptables -A OUTPUT -m owner --uid-owner $USER_ID -j REJECT
         
-        sudo netfilter-persistent save
+        netfilter-persistent save
         echo "Firewall ACTIVADO para $USER_NAME."        
         ;;
     status)
