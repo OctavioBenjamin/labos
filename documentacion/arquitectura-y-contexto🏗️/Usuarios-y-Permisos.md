@@ -9,4 +9,9 @@
 ### Grupos
 - **psico:** es un grupo que se creo con el fin de que los usuarios *informatica* y *controlador* puedan interactuar y realizar tareas sobre algunos directorios.
 
-
+## Equipos
+Cuando hablamos de *equipos* nos referimos unicamente a las computadoras destinadas a examenes/clases.
+### Usuarios
+- **admin:** es el usuario para realizar tareas sobre cada equipo. El servidor se conecta mediante este usuario. La password solo pertenece al departamento de informatica. 
+    - Grupos: sudoers
+- **laboratorio:** es el usuario que utilizan los alumnos. No tiene permisos de administrador. Es el principal afectado cuando se activa el firewall del equipo. No tiene grupos.
