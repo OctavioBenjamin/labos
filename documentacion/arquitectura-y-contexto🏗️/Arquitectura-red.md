@@ -10,4 +10,4 @@ Ambos equipos varian en especificaciones pero todos estan usando **Ubuntu 24 LTS
 
 El **servidor** (hostname: server-psico-1) lleva **OS: Debian GNU/Linux 13 (trixie) x86_64** y permite la conexión por SSH unicamente por llaves.
 
-![Topologia de Red](./topologia.jpg)
+![Topologia de Red](./Topologia.jpg)
