@@ -1,4 +1,4 @@
-# Instructivo Tecnico
+# Activación Individual de Equipo
 
 En esta implementación se encuentra por defecto el usuario **laboratorio** solamente con acceso a paginas del dominio **unc.edu.ar** pero los demas usuarios no tienen esta limitación. 
 

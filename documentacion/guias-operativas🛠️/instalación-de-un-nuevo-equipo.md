@@ -21,12 +21,12 @@ Esto lo que hace es instalar ssh
 Pasos
 
 1. Hay que meterse a la BIOS para configurar el wake o lan y activarlo y verificar que el ahorro de energia no apague el puerto. 
-2. Desde el home directory ejecutar:
-> sudo bash remoto/wake-on-lan
+2. Desde la carpeta del repo labos ejecutar:
+> sudo bash remoto/wake-on-lan.sh
 
 Al final de la ejecución nos va a indica cual es la dirección MAC 
 
-Aclaracion: se debe anotar en el spreadsheets que esta en el drive **equipos de laborarorio**
+Aclaracion: se debe anotar la MAC en el spreadsheets que esta en el drive **equipos de laborarorio**
 
 
 
