@@ -19,7 +19,7 @@ Para que el servidor pueda "ver" y controlar el equipo, necesitamos obtener tres
 ---
 
 ## 2. Registro Administrativo
-Carga el Nombre, IP y MAC en la **Planilla de Inventario en Drive** (solicita el enlace al administrador del laboratorio). Este paso es vital para el control de inventario físico.
+Carga el Nombre, IP y MAC en la **Planilla de Inventario en Drive**. Este paso es vital para el control de inventario físico.
 
 ---
 
