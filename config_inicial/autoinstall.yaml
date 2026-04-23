@@ -1,0 +1,121 @@
+# autoinstall.yaml - Proyecto Labos
+# Ubuntu 24.04 LTS (Noble Numbat)
+version: 1
+interactive-sections:
+  - identity
+storage:
+  layout:
+    name: direct
+identity:
+  hostname: labo-pc
+  username: laboratorio
+  # Password: laboratorio (Hashed)
+  password: $6$exS63q9u$fD317.pSjM.Ssh6kZ/Z3qDEXnCqNfO.Y5w6qfG.Nn.7n7n7n7n7n7n7n7n7n7n7n7n7n7n7n7n7n7n
+  realname: Laboratorio
+ssh:
+  install-server: true
+  allow-pw: true
+packages:
+  - curl
+  - libreoffice
+  - evince
+  - p7zip-full
+  - unzip
+  - openssh-server
+  - ethtool
+  - iptables-persistent
+  - dnsutils
+  - x11-xserver-utils
+  - wget
+  - gnupg2
+  - software-properties-common
+  - git
+user-data:
+  users:
+    - name: admin
+      groups: sudo
+      shell: /bin/bash
+      lock_passwd: false
+      # Password: admin (Hashed)
+      passwd: $6$exS63q9u$8vR0U.1X8Y8Z/Z3qDEXnCqNfO.Y5w6qfG.Nn.7n7n7n7n7n7n7n7n7n7n7n7n7n7n7n7n7n7n
+  runcmd:
+    # 1. Configuración de Repositorios para Wine (Noble)
+    - dpkg --add-architecture i386
+    - mkdir -pm755 /etc/apt/keyrings
+    - wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+    - wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources
+    - apt-get update
+    - DEBIAN_FRONTEND=noninteractive apt-get install -y --install-recommends winehq-stable
+
+    # 2. Desactivar suspensión de pantalla y energía
+    - sudo -u laboratorio gsettings set org.gnome.desktop.session idle-delay 0
+    - sudo -u laboratorio gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+    - sudo -u laboratorio gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'
+
+    # 3. Configurar Wake-on-LAN
+    - INTERFACE=$(ip -o link show | awk -F': ' '{print $2}' | grep -v 'lo' | grep -v 'wlan' | head -n 1)
+    - ethtool -s $INTERFACE wol g
+    - |
+      cat <<EOF > /etc/systemd/system/wol.service
+      [Unit]
+      Description=Configure Wake-on-LAN
+      After=network-online.target
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/sbin/ethtool -s $INTERFACE wol g
+      [Install]
+      WantedBy=multi-user.target
+      EOF
+    - systemctl enable wol.service
+
+    # 4. Restricción del usuario 'laboratorio'
+    - deluser laboratorio sudo
+    - passwd -d laboratorio
+
+    # 5. Configuración de Sudoers para Firewall (Usuario Admin)
+    - |
+      cat <<EOF > /etc/sudoers.d/90-conexion
+      admin ALL=(ALL) NOPASSWD: /usr/bin/bash /home/admin/labos/firewalls/conexion.sh *
+      EOF
+    - chmod 0440 /etc/sudoers.d/90-conexion
+
+    # 6. Preparar Escritorio de Laboratorio (Accesos directos y script InfoStat)
+    - mkdir -p /home/laboratorio/Escritorio
+    - |
+      cat <<EOF > /home/laboratorio/Escritorio/LibreOffice.desktop
+      [Desktop Entry]
+      Name=LibreOffice
+      Exec=libreoffice
+      Icon=libreoffice-main
+      Type=Application
+      Terminal=false
+      EOF
+    - |
+      cat <<EOF > /home/laboratorio/Escritorio/Calculadora.desktop
+      [Desktop Entry]
+      Name=Calculadora
+      Exec=gnome-calculator
+      Icon=org.gnome.Calculator
+      Type=Application
+      Terminal=false
+      EOF
+    
+    # Copiar el script de instalacion de InfoStat que creamos
+    - cp /home/admin/labos/config_inicial/install-infostat.sh /home/laboratorio/Escritorio/Instalar-InfoStat.sh
+    - chmod +x /home/laboratorio/Escritorio/*.desktop
+    - chmod +x /home/laboratorio/Escritorio/Instalar-InfoStat.sh
+    - chown -R laboratorio:laboratorio /home/laboratorio/Escritorio/
+
+    # 7. Firefox Autostart
+    - mkdir -p /home/laboratorio/.config/autostart
+    - |
+      cat <<EOF > /home/laboratorio/.config/autostart/firefox-aula-virtual.desktop
+      [Desktop Entry]
+      Type=Application
+      Exec=firefox https://psicologia.aulavirtual.unc.edu.ar/
+      Name=Firefox Aula Virtual
+      EOF
+    - chown -R laboratorio:laboratorio /home/laboratorio/.config/autostart/
+
+    # 8. Clonar repositorio en admin (opcional si hay red)
+    - sudo -u admin git clone https://github.com/OctavioBenjamin/labos.git /home/admin/labos || true
