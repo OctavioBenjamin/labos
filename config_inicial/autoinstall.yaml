@@ -12,7 +12,7 @@ autoinstall:
     hostname: laboratorio-mini-pc
     username: admin
     # Password: admin (Hashed)
-    passwd: $6$wJfQbgjoPZwiFOc0$aWdF4ZKU1QhXbN2qXtQl3VlmcFQjOMuFPApMswo/VM4xnNsmF.4O5fYdSbFF/DOTu/EuAE160rGuVE/rU23lr/
+    passwd: "$6$wJfQbgjoPZwiFOc0$aWdF4ZKU1QhXbN2qXtQl3VlmcFQjOMuFPApMswo/VM4xnNsmF.4O5fYdSbFF/DOTu/EuAE160rGuVE/rU23lr/"
     realname: Administrador
   ssh:
     install-server: true
@@ -35,10 +35,10 @@ autoinstall:
   user-data:
     users:
       - name: laboratorio
-      shell: /bin/bash
-      lock_passwd: false
-      # Password: admin (Hashed)
-      passwd: $6$wJfQbgjoPZwiFOc0$aWdF4ZKU1QhXbN2qXtQl3VlmcFQjOMuFPApMswo/VM4xnNsmF.4O5fYdSbFF/DOTu/EuAE160rGuVE/rU23lr/
+        shell: /bin/bash
+        lock_passwd: false
+        # Password: admin (Hashed)
+        passwd: "$6$wJfQbgjoPZwiFOc0$aWdF4ZKU1QhXbN2qXtQl3VlmcFQjOMuFPApMswo/VM4xnNsmF.4O5fYdSbFF/DOTu/EuAE160rGuVE/rU23lr/"
     runcmd:
       # 1. Clonar repositorio primero para tener los scripts disponibles
       - git clone https://github.com/OctavioBenjamin/labos.git /home/admin/labos
