@@ -22,6 +22,7 @@ case $ACCION in
         
         # 2. PERMITIR: Intranet UNC
         iptables -A OUTPUT -m owner --uid-owner $USER_ID -d 200.16.16.0/24 -j ACCEPT
+        iptables -A OUTPUT -m owner --uid-owner $USER_ID -d 200.16.29.0/24 -j ACCEPT
         
         # 3. PERMITIR: DNS (para que resuelva nombres de la intranet)
         iptables -A OUTPUT -m owner --uid-owner $USER_ID -p udp --dport 53 -j ACCEPT
