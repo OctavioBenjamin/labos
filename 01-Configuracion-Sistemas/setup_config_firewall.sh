@@ -1,4 +1,11 @@
 #!/bin/bash
+########################################################
+# Proyecto: Labos - Automatización de Laboratorio
+# Autores: 
+# Octavio Benjamin - GitHub: https://github.com/OctavioBenjamin
+# Zoi Lypnik - Github: https://github.com/ZoiLyp
+# Descripción: Configuración de Ubuntu para Psicología UNC
+########################################################
 
 # --- CONFIGURACIÓN DE PRIVILEGIOS (SIN CONTRASEÑA) ---
 RULE_FILE="/etc/sudoers.d/laboratorio-firewall"

@@ -1,13 +1,19 @@
 #!/bin/bash
+########################################################
+# Proyecto: Labos - Automatización de Laboratorio
+# Autores: 
+# Octavio Benjamin - GitHub: https://github.com/OctavioBenjamin
+# Zoi Lypnik - Github: https://github.com/ZoiLyp
+########################################################
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 BASE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-CONEXION_SH="$BASE_DIR/firewalls/conexion.sh"
-WOL_SH="$BASE_DIR/remoto/wake-on-lan.sh"
-PRENDER_AULA_SH="$BASE_DIR/software/prender_aula.sh"
+CONEXION_SH="$BASE_DIR/02-Software-Admin/fw_conexion.sh"
+PRENDER_AULA_SH="$BASE_DIR/02-Software-Admin/wake_aula-completa.sh"
 IP_LIST="$BASE_DIR/datos/IPs.txt"
 MAC_LIST="$BASE_DIR/datos/MACs.txt"
+HOSTS="$BASE_DIR/01-Configuracion-Sistemas/ansible/hosts.ini"
 
 TITLE="Laboratorio UNC - Gestión Centralizada"
 

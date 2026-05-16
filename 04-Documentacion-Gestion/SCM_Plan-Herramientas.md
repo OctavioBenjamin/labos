@@ -43,3 +43,7 @@ Se establece una Línea Base al finalizar la configuración integral de cada lab
 3. Software base (InfoStat) instalado y operativo.
 4. Acceso remoto funcional (SSH y Wake-on-LAN) verificado.
 5. Estructura de archivos y nombres acorde a este documento.
+
+## Autora
+**[Zoi Lypnik]** - Redaccion y planificación del SCM - [@ZoiLyp](https://github.com/ZoiLyp)
+

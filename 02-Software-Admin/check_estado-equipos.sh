@@ -1,4 +1,11 @@
 #!/bin/bash
+########################################################
+# Proyecto: Labos - Automatización de Laboratorio
+# Autores: 
+# Octavio Benjamin - GitHub: https://github.com/OctavioBenjamin
+# Zoi Lypnik - Github: https://github.com/ZoiLyp
+########################################################
+
 
 INVENTORY="/srv/labos/ansible/hosts.ini"
 
