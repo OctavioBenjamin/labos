@@ -3,7 +3,7 @@
 # --- CONFIGURACIÓN ---
 USER_NAME="laboratorio"
 USER_ID=$(id -u $USER_NAME 2>/dev/null)
-WHITELIST="/home/admin/labos/firewalls/whitelist.txt"
+WHITELIST="/home/admin/labos/02-Software-Admin/whitelist.txt"
 
 ACCION=$1
 

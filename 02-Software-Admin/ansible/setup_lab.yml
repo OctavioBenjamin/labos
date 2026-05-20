@@ -1,0 +1,34 @@
+---
+- name: Configuración integral de equipos nuevos
+  hosts: all
+  become: yes
+  vars:
+    # Agrega aquí cualquier script o comando adicional que necesite NOPASSWD
+    nopasswd_commands:
+      - "/usr/bin/bash /home/admin/labos/02-Software-Admin/fw_conexion.sh"
+      - "/usr/sbin/shutdown"
+      - "/usr/sbin/reboot"
+
+  tasks:
+    - name: 1. Distribuir llaves SSH (Acceso remoto)
+      authorized_key:
+        user: admin
+        state: present
+        key: "{{ lookup('file', item) }}"
+      loop:
+        - '/home/informatica/.ssh/id_ed25519.pub'
+        - '/home/controlador/.ssh/id_ed25519.pub'
+      become: no  # Las llaves se ponen en el home del user, no requieren root para el lookup local
+
+    - name: 2. Asegurar que el grupo admin existe
+      group:
+        name: admin
+        state: present
+
+    - name: 3. Configurar reglas sudo NOPASSWD (Scripts y Energía)
+      copy:
+        dest: /etc/sudoers.d/admin_labo
+        content: |
+          admin ALL=(ALL) NOPASSWD: {{ nopasswd_commands | join(', ') }}
+        mode: '0440'
+        validate: '/usr/sbin/visudo -cf %s'

@@ -9,13 +9,18 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 BASE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-CONEXION_SH="$BASE_DIR/02-Software-Admin/fw_conexion.sh"
-PRENDER_AULA_SH="$BASE_DIR/02-Software-Admin/wake_aula-completa.sh"
 IP_LIST="$BASE_DIR/datos/IPs.txt"
 MAC_LIST="$BASE_DIR/datos/MACs.txt"
-HOSTS="$BASE_DIR/01-Configuracion-Sistemas/ansible/hosts.ini"
+
+PRENDER_AULA_SH="$BASE_DIR/02-Software-Admin/wake_aula-completa.sh"
+HOSTS="$BASE_DIR/02-Software-Admin/ansible/hosts.ini"
+
+# Scripts dentro e cada equipo
+CONEXION_SCRIPT="sudo /home/admin/labos/02-Software-Admin/fw_conexion.sh"
 
 TITLE="Laboratorio UNC - Gestión Centralizada"
+
+
 
 show_msg() {
     whiptail --title "$TITLE" --msgbox "$1" 10 60
@@ -24,22 +29,20 @@ show_msg() {
 menu_firewall() {
     while true; do
         CHOICE=$(whiptail --title "Firewall y Red" --menu "Opciones de conectividad:" 15 60 4 \
-            "1" "Activar Internet (Todo Abierto)" \
+            "1" "Activar Internet(Todo Abierto)" \
             "2" "Desactivar Internet (Solo Intranet)" \
-            "3" "Estado del Internet" \
-            "4" "Volver al menú principal" 3>&1 1>&2 2>&3)
+            "3" "Volver al menú principal" 3>&1 1>&2 2>&3)
         
         if [ $? -ne 0 ]; then break; fi
         
         case "$CHOICE" in
             1) 
-		ansible all -i /srv/labos/ansible/hosts.ini -m shell -a "sudo bash /home/admin/labos/firewalls/conexion.sh on" -u admin
+		ansible all -i $HOSTS -m shell -a "$CONEXION_SCRIPT on" -u admin
 	      ;;
             2) 
-		ansible all -i /srv/labos/ansible/hosts.ini -m shell -a "sudo bash /home/admin/labos/firewalls/conexion.sh off" -u admin
+		ansible all -i $HOSTS -m shell -a "$CONEXION_SCRIPT off" -u admin
 	      ;;
-            3) STATUS=$(sudo bash "$CONEXION_SH" status); show_msg "Estado actual:\n$STATUS" ;;
-            4) break ;;
+            3) break ;;
         esac
     done
 }
@@ -67,16 +70,16 @@ menu_energia() {
                 fi
                 ;;
             2) 
-              ansible all -i /srv/labos/ansible/hosts.ini -m shell -a "sudo shutdown -h now" -u admin
-              ;;
-            3) show_msg "Iniciando REINICIO remoto..." ;;
+              	ansible all -i $HOSTS -m shell -a "sudo shutdown -h now" -u admin
+              	;;
+            3)
+		ansible all -i $HOSTS -m shell -a "sudo reboot" -u admin
+		;;
             4) break ;;
         esac
     done
 }
 menu_admin() {
-    INVENTORY="/srv/labos/ansible/hosts.ini"
-
     while true; do
         CHOICE=$(whiptail --title "Administración" --menu "Opciones de gestión:" 15 60 3 \
             "1" "Ver estado de equipos (Ping)" \
@@ -86,14 +89,14 @@ menu_admin() {
         
         case "$CHOICE" in
             1)
-                if [ -f "$INVENTORY" ]; then
+                if [ -f "$HOSTS" ]; then
                     # Cartel de espera mientras se procesan los pings
                     whiptail --title "Escaneando Red" --infobox "Haciendo ping a los equipos...\nPor favor, esperá unos segundos. ⏳" 10 50
                     
                     # Generamos el texto con el estado capturando la salida del bucle
                     ESTADO=$(
                         echo -e "Estado actual de los equipos:\n"
-                        grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' "$INVENTORY" | sort -u | while read -r ip; do
+                        grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' "$HOSTS" | sort -u | while read -r ip; do
                             if ping -c 1 -W 1 "$ip" &> /dev/null; then
                                 echo "✅ ONLINE  - $ip"
                             else
@@ -105,7 +108,7 @@ menu_admin() {
                     # Mostramos el resultado final
                     whiptail --title "Inventario de Red" --scrolltext --msgbox "$ESTADO" 20 65
                 else
-                    whiptail --title "Error" --msgbox "No se encontró el inventario en $INVENTORY." 10 50
+                    whiptail --title "Error" --msgbox "No se encontró el inventario en $HOSTS." 10 50
                 fi
                 ;;
             2) break ;;

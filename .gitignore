@@ -1,6 +1,5 @@
 # Ignorar carpeta de datos sensibles
 datos/
 *.txt
-!firewalls/whitelist.txt
-!README.md
-ansible/
+README.md
+02-Software-Admin/ansible/hosts.ini

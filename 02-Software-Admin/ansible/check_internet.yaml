@@ -1,0 +1,19 @@
+---
+- name: Comprobar salida a internet en el inventario
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Hacer ping a los DNS de Google
+      ansible.builtin.command: ping -c 3 8.8.8.8
+      register: ping_result
+      ignore_errors: true # Para que el playbook no se detenga si un host falla
+
+    - name: Reportar ÉXITO
+      ansible.builtin.debug:
+        msg: "✅ ESTADO OK: La PC tiene salida a internet."
+      when: ping_result.rc == 0
+
+    - name: Reportar FALLO
+      ansible.builtin.debug:
+        msg: "❌ ESTADO CRÍTICO: La PC no alcanza internet."
+      when: ping_result.rc != 0

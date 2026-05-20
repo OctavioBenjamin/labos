@@ -1,0 +1,21 @@
+---
+- name: Actualizar repositorios en los equipos del laboratorio
+  hosts: all
+  become: yes  # Necesario si el usuario admin requiere privilegios para escribir en esa ruta
+  vars:
+    repo_path: "/home/admin/labos"
+
+  tasks:
+    - name: Ejecutar git pull en el repositorio
+      ansible.builtin.git:
+        repo: 'https://github.com/octaviobenjamin/labos.git' # Opcional, pero ayuda a asegurar el origen
+        dest: "{{ repo_path }}"
+        update: yes
+        version: main  # Cambia a 'master' o la rama que uses
+        force: yes
+      register: git_result
+
+    - name: Mostrar el estado de la actualización
+      ansible.builtin.debug:
+        msg: "El repo en {{ inventory_hostname }} ha sido actualizado."
+      when: git_result.changed
