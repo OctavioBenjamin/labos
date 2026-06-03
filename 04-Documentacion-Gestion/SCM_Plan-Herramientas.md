@@ -17,7 +17,7 @@ Reglas de nombrado y ubicación para asegurar la trazabilidad del sistema:
 | Nombre del Ítem | Regla de Nombrado | Ubicación Física | Tipo |
 | :--- | :--- | :--- | :--- |
 | Script de Instalación | `setup_[nombre_servicio].sh` | `/01-Configuracion-Sistemas/` | Código |
-| Playbook de Ansible | `deploy_[modulo].yaml` | `/01-Configuracion-Sistemas/` | Código |
+| Playbook de Ansible | `[accion].yml` | `/01-Configuracion-Sistemas/` | Código |
 | Script de Control | `[accion]_[entidad].sh` | `/02-Software-Admin/` | Código |
 | Configuración de Firewall | `fw_[perfil].sh` | `/01-Configuracion-Sistemas/` | Configuración |
 | Inventario de Red | `relevamiento_[aula]_[fecha].txt` | `/01-Configuracion-Sistemas/` | Datos |

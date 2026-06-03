@@ -1,0 +1,11 @@
+---
+- name: Sincronización forzada del Repositorio
+  hosts: all 
+  become: yes
+  tasks:
+    - name: Actualizar repo descartando cualquier cambio local
+      ansible.builtin.git:
+        repo: 'https://github.com/octaviobenjamin/labos.git'
+        dest: /home/admin/labos
+        update: yes
+        force: yes
