@@ -5,7 +5,7 @@
   vars:
     # Agrega aquí cualquier script o comando adicional que necesite NOPASSWD
     nopasswd_commands:
-      - "/usr/bin/bash /home/admin/labos/02-Software-Admin/fw_conexion.sh"
+      - "/usr/bin/bash /home/admin/labos/firewalls/conexion.sh"
       - "/usr/sbin/shutdown"
       - "/usr/sbin/reboot"
 

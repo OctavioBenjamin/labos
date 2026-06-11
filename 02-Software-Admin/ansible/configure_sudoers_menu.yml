@@ -1,0 +1,26 @@
+---
+- name: Configurar permisos NOPASSWD para el menú interactivo
+  hosts: all
+  become: yes            # Se requiere root para modificar sudoers
+  gather_facts: false
+
+  vars:
+    usuario_no_tecnico: "laboratorio"
+
+  tasks:
+
+    - name: Crear regla en /etc/sudoers.d/ para comandos específicos del menú
+      ansible.builtin.copy:
+        dest: "/etc/sudoers.d/ansible_menu_commands"
+        content: |
+          # Permitir al usuario del menú apagar, reiniciar y ejecutar el script sin contraseña
+          {{ usuario_no_tecnico }} ALL=(ALL) NOPASSWD: /sbin/shutdown, /sbin/reboot, /usr/bin/systemctl reboot, /usr/bin/systemctl poweroff, /home/admin/labos/firewalls/conexion.sh
+        mode: '0440'
+        # Esta línea es CRÍTICA: valida que la sintaxis sea correcta antes de guardar para no romper el sudo del sistema
+        validate: '/usr/sbin/visudo -cf %s'
+
+    - name: Asegurar que el script de firewall tenga permisos de ejecución
+      ansible.builtin.file:
+        path: /home/admin/labos/firewalls/conexion.sh
+        mode: '0755'
+      ignore_errors: true # Por si el script aún no existe en todos los hosts
