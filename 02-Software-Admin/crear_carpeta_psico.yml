@@ -1,0 +1,19 @@
+---
+- name: Configurar directorio /etc/psico en los servidores
+  hosts: psico_servers
+  become: yes  # Ejecuta como root usando sudo
+  gather_facts: no  # Desactivado para que sea aún más rápido
+
+  tasks:
+    - name: Asegurar que el grupo 'psico' exista
+      ansible.builtin.group:
+        name: psico
+        state: present
+
+    - name: Crear carpeta /etc/psico con permisos y propietarios correctos
+      ansible.builtin.file:
+        path: /etc/psico
+        state: directory
+        owner: root
+        group: psico
+        mode: '0770'
