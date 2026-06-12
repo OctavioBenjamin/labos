@@ -16,7 +16,7 @@ PRENDER_AULA_SH="$BASE_DIR/02-Software-Admin/wake_aula-completa.sh"
 HOSTS="$BASE_DIR/02-Software-Admin/ansible/hosts.ini"
 
 # Scripts dentro e cada equipo
-CONEXION_SCRIPT="sudo /home/admin/labos/02-Software-Admin/fw_conexion.sh"
+CONEXION_SCRIPT="sudo /etc/psico/fw_conexion.sh"
 
 TITLE="Laboratorio UNC - Gestión Centralizada"
 
