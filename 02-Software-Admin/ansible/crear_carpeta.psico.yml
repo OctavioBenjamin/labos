@@ -1,6 +1,6 @@
 ---
 - name: Configurar directorio /etc/psico en los servidores
-  hosts: psico_servers
+  hosts: all
   become: yes  # Ejecuta como root usando sudo
   gather_facts: no  # Desactivado para que sea aún más rápido
 
