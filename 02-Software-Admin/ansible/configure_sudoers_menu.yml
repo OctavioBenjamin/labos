@@ -4,14 +4,14 @@
   become: yes
   gather_facts: false
   vars:
-    usuario_no_tecnico: "laboratorio"
+    usuario_admin: "admin"
   tasks:
     - name: Crear regla en /etc/sudoers.d/ para comandos específicos del menú
       ansible.builtin.copy:
         dest: "/etc/sudoers.d/ansible_menu_commands"
         content: |
           # Permitir al usuario del menú apagar, reiniciar y ejecutar el script sin contraseña
-          {{ usuario_no_tecnico }} ALL=(ALL) NOPASSWD: /sbin/shutdown, /sbin/reboot, /usr/bin/systemctl reboot, /usr/bin/systemctl poweroff, /home/admin/labos/firewalls/conexion.sh, /etc/psico/fw_conexion.sh
+          {{ usuario_admin }} ALL=(ALL) NOPASSWD: /sbin/shutdown, /sbin/reboot, /usr/bin/systemctl reboot, /usr/bin/systemctl poweroff, /home/admin/labos/firewalls/conexion.sh, /etc/psico/fw_conexion.sh
         mode: '0440'
         validate: '/usr/sbin/visudo -cf %s'
 
