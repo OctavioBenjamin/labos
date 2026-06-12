@@ -1,0 +1,21 @@
+---
+- name: Distribuir fw_conexion.sh a todos los hosts
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Asegurar que el directorio /etc/psico/ existe
+      ansible.builtin.file:
+        path: /etc/psico
+        state: directory
+        owner: root
+        group: psico
+        mode: '0770'
+
+    - name: Copiar fw_conexion.sh a /etc/psico/
+      ansible.builtin.copy:
+        src: /srv/labos/02-Software-Admin/fw_conexion.sh
+        dest: /etc/psico/fw_conexion.sh
+        owner: root
+        group: psico
+        mode: '0770'
