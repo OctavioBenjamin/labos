@@ -1,0 +1,16 @@
+---
+- name: Verificar acceso SSH sin contraseña para el usuario controlador
+  hosts: all
+  gather_facts: no
+  remote_user: controlador
+  ignore_unreachable: yes
+
+  tasks:
+    - name: Validar conexión SSH mediante Ping
+      ansible.builtin.ping:
+      register: ping_result
+
+    - name: Confirmar estado de la llave ssh (id_ed25519.pub)
+      ansible.builtin.debug:
+        msg: "CONEXIÓN EXITOSA: El host {{ inventory_hostname }} tiene la llave de 'controlador' configurada correctamente."
+      when: ping_result.ping is defined and ping_result.ping == 'pong'

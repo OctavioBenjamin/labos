@@ -1,0 +1,21 @@
+- name: energy_shutdown
+  hosts: all
+  become: yes
+  tasks:
+    - name: Apagar el sistema
+      ansible.builtin.command:
+        cmd: systemctl poweroff
+      notify: confirmacion_apagado
+
+    - name: Esperar a que los hosts se desconecten
+      ansible.builtin.wait_for:
+        host: "{{ inventory_hostname }}"
+        port: 22
+        state: stopped
+        timeout: 120
+      ignore_unreachable: yes
+
+  handlers:
+    - name: confirmacion_apagado
+      ansible.builtin.debug:
+        msg: "El servidor {{ inventory_hostname }} está ejecutando el apagado."

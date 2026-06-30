@@ -1,0 +1,5 @@
+# Ignorar carpeta de datos sensibles
+datos/
+*.txt
+README.md
+02-Software-Admin/ansible/hosts.ini
