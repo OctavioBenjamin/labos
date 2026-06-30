@@ -5,7 +5,7 @@ Sistema de administración centralizada y configuración automatizada para labor
 ![Interfaz de Inicio](./03-Documentacion-Tecnica/00-Referencia-Tecnica/UI_Example_1.png)
 ![Interfaz de Firewall](./03-Documentacion-Tecnica/00-Referencia-Tecnica/UI_Example_2.png)
 
-![Arquitectura](./03-Documentacion-Tecnica/04-Infraestructura/Topologia_Aula-Psico.jpg)
+![Arquitectura](./03-Documentacion-Tecnica/04-Infraestructura/Topologia.jpg)
 
 ## 📋 Resumen General
 
