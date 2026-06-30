@@ -1,0 +1,17 @@
+---
+- name: Actualización masiva
+  hosts: all
+  become: yes  # Esto equivale a ejecutar los comandos con 'sudo'
+  gather_facts: no # Acelera la ejecución al no empaquetar datos del sistema
+
+  tasks:
+    - name: Ejecutar apt update y apt upgrade
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: dist # Usa 'dist' o 'yes' para actualizar todo el sistema de forma segura
+        cache_valid_time: 3600 # No vuelve a hacer update si ya se hizo en la última hora
+
+    - name: Limpiar paquetes obsoletos (autoremove)
+      ansible.builtin.apt:
+        autoremove: yes
+        purge: yes # Borra también los archivos de configuración de lo que se elimine
