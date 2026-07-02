@@ -100,10 +100,10 @@ menu_energia() {
                 read -p "Presione ENTER para volver al menú..."
                 ;;
             apagar)
-                ansible-playbook -i "$HOSTS" "$SCRIPT_DIR/ansible/energy_shutdown.yml" --limit "$GRUPO"
+                ansible "$GRUPO" -i "$HOSTS" -m shell -a "sudo shutdown -h now"
                 ;;
             reiniciar)
-                ansible-playbook -i "$HOSTS" "$SCRIPT_DIR/ansible/energy_reboot.yml" --limit "$GRUPO"
+                ansible "$GRUPO" -i "$HOSTS" -m shell -a "sudo reboot"
                 ;;
         esac
     done

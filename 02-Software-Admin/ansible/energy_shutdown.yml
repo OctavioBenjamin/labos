@@ -1,6 +1,5 @@
 - name: energy_shutdown
   hosts: all
-  become: yes
   tasks:
     - name: Apagar el sistema
       ansible.builtin.command:
