@@ -1,6 +1,5 @@
 - name: energy_reboot
   hosts: all
-  become: yes
   tasks:
     - name: Reiniciar y esperar a que responda
       ansible.builtin.reboot:
