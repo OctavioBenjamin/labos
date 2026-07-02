@@ -10,7 +10,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 BASE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 IP_LIST="$BASE_DIR/datos/IPs.txt"
-MAC_LIST="$BASE_DIR/datos/MACs.txt"
 
 # Ansible
 HOSTS="$BASE_DIR/02-Software-Admin/ansible/hosts.ini"
@@ -18,7 +17,11 @@ HOSTS="$BASE_DIR/02-Software-Admin/ansible/hosts.ini"
 PB="planta_baja"
 PA="planta_alta"
 
-# Scripts dentro e cada equipo
+# Archivos MAC por aula
+MACs_PA="MACs_PA.txt"
+MACs_PB="MACs_PB.txt"
+
+# Scripts dentro de cada equipo
 CONEXION_SCRIPT="sudo /etc/psico/fw_conexion.sh"
 PRENDER_AULA_SH="$BASE_DIR/02-Software-Admin/wake_aula-completa.sh"
 
@@ -76,26 +79,22 @@ menu_energia() {
         [ $? -ne 0 ] && break
 
         case "$CHOICE" in
-            1)  GRUPO="all"; ACCION="encender" ;;
-            2)  GRUPO="all"; ACCION="apagar"   ;;
-            3)  GRUPO="all"; ACCION="reiniciar" ;;
-            4)  GRUPO="$PB"; ACCION="encender" ;;
-            5)  GRUPO="$PB"; ACCION="apagar"   ;;
-            6)  GRUPO="$PB"; ACCION="reiniciar" ;;
-            7 | 8 | 9) #GRUPO="$PA"; ACCION="encender" ;;
-		echo "Error de Energia - No se ha implementado Plata Alta..."
-		read -p "Presione Enter para continuar..."
-		break
-		;;
-            8) GRUPO="$PA"; ACCION="apagar" ;;
-            9) GRUPO="$PA"; ACCION="reiniciar" ;;		
+            1)  GRUPO="all";   ACCION="encender";  MAC_FILES="$MACs_PB $MACs_PA" ;;
+            2)  GRUPO="all";   ACCION="apagar"   ;;
+            3)  GRUPO="all";   ACCION="reiniciar" ;;
+            4)  GRUPO="$PB";   ACCION="encender";  MAC_FILES="$MACs_PB" ;;
+            5)  GRUPO="$PB";   ACCION="apagar"   ;;
+            6)  GRUPO="$PB";   ACCION="reiniciar" ;;
+            7)  GRUPO="$PA";   ACCION="encender";  MAC_FILES="$MACs_PA" ;;
+            8)  GRUPO="$PA";   ACCION="apagar"   ;;
+            9)  GRUPO="$PA";   ACCION="reiniciar" ;;
             10) break ;;
         esac
 
         case "$ACCION" in
             encender)
                 clear
-                bash "$PRENDER_AULA_SH"
+                bash "$PRENDER_AULA_SH" $MAC_FILES
                 echo ""
                 read -p "Presione ENTER para volver al menú..."
                 ;;
