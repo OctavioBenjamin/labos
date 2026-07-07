@@ -1,6 +1,5 @@
 ---
 - name: Cargar llave SSH de controlador en hosts
-  hosts: all
   gather_facts: no
 
   tasks:
