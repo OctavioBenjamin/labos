@@ -50,13 +50,8 @@ menu_firewall() {
             2) GRUPO="all"; ACCION="off" ;;
             3) GRUPO="$PB"; ACCION="on"  ;;
             4) GRUPO="$PB"; ACCION="off" ;;
-            5 | 6) 
-		#GRUPO="$PA"; ACCION="on"  
-		echo "No se ha implementado Plata Alta..."
-		read -p "Presione Enter para continuar..."
-		break
-		;;
-            #6) GRUPO="$PA"; ACCION="off" ;;
+            5) GRUPO="$PA"; ACCION="on"  ;;
+            6) GRUPO="$PA"; ACCION="off" ;;
             7) break ;;
         esac
 
@@ -69,12 +64,12 @@ menu_energia() {
             "1" "[ TODO ] Encender Aulas" \
             "2" "[ TODO ] Apagar Aulas" \
             "3" "[ TODO ] Reiniciar Aulas" \
-            "4" "[ PB  ] Encender Aulas" \
-            "5" "[ PB  ] Apagar Aulas" \
-            "6" "[ PB  ] Reiniciar Aulas" \
-            "7" "[ PA  ] Encender Aulas" \
-            "8" "[ PA  ] Apagar Aulas" \
-            "9" "[ PA  ] Reiniciar Aulas" \
+            "4" "[ PB  ] Encender Aula" \
+            "5" "[ PB  ] Apagar Aula" \
+            "6" "[ PB  ] Reiniciar Aula" \
+            "7" "[ PA  ] Encender Aula" \
+            "8" "[ PA  ] Apagar Aula" \
+            "9" "[ PA  ] Reiniciar Aula" \
             "10" "Volver al menú principal" 3>&1 1>&2 2>&3)
         [ $? -ne 0 ] && break
 
