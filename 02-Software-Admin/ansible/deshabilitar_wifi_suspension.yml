@@ -1,0 +1,31 @@
+---
+- name: Deshabilitar suspensión y placa Wi-Fi
+  hosts: all
+  become: yes
+  tasks:
+    - name: Enmascarar servicios de suspensión de systemd
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        masked: yes
+        state: stopped
+      loop:
+        - sleep.target
+        - suspend.target
+        - hibernate.target
+        - hybrid-sleep.target
+
+    - name: Bloquear Wi-Fi por software con rfkill
+      ansible.builtin.command: rfkill block wifi
+      register: rfkill_result
+      changed_when: false
+      ignore_errors: true
+
+    - name: Deshabilitar Wi-Fi en NetworkManager
+      ansible.builtin.command: nmcli radio wifi off
+      register: nmcli_result
+      changed_when: false
+      ignore_errors: true
+
+    - name: Confirmar acciones
+      ansible.builtin.debug:
+        msg: "Suspensión del sistema enmascarada y Wi-Fi deshabilitado exitosamente."
