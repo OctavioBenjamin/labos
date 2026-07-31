@@ -20,7 +20,7 @@ COMANDO="$*"
 
 ARGS=(-e "true")
 for ip in $(grep -i "PB" "$HOSTS" | cut -d'=' -f2); do
-    ARGS+=(--tab -e "ssh -tt $USUARIO@$ip $COMANDO")
+    ARGS+=(--tab -- "ssh -tt $USUARIO@$ip $COMANDO")
 done
 
 gnome-terminal "${ARGS[@]}"
