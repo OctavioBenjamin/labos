@@ -6,7 +6,7 @@
 # Zoi Lypnik - Github: https://github.com/ZoiLyp
 ########################################################
 
-HOSTS="/home/admin/labos/02-Software-Admin/ansible/hosts.ini"
+HOSTS="./ansible/hosts.ini"
 USUARIO="admin"
 
 echo "Nota: la sesión ssh al servidor debe ser con 'ssh -X -C' para poder abrir una terminal de gnome"
