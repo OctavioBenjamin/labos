@@ -1,11 +1,12 @@
 #!/bin/bash
 ########################################################
 # Proyecto: Labos - Automatización de Laboratorio
-# Autor: 
+# Autores: 
 # Octavio Benjamin - GitHub: https://github.com/OctavioBenjamin
+# Zoi Lypnik - Github: https://github.com/ZoiLyp
 ########################################################
 
-HOSTS="./ansible/hosts.ini"
+HOSTS="/home/admin/labos/02-Software-Admin/ansible/hosts.ini"
 USUARIO="admin"
 
 echo "Nota: la sesión ssh al servidor debe ser con 'ssh -X -C' para poder abrir una terminal de gnome"
@@ -18,9 +19,13 @@ fi
 
 COMANDO="$*"
 
-ARGS=(-e "true")
+ARGS=()
 for ip in $(grep -i "PB" "$HOSTS" | cut -d'=' -f2); do
-    ARGS+=(--tab -- "ssh -tt $USUARIO@$ip $COMANDO")
+    if [ ${#ARGS[@]} -eq 0 ]; then
+        ARGS+=(-- "ssh -tt $USUARIO@$ip '$COMANDO'")
+    else
+        ARGS+=(--tab -- "ssh -tt $USUARIO@$ip '$COMANDO'")
+    fi
 done
 
 gnome-terminal "${ARGS[@]}"
