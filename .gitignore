@@ -3,4 +3,6 @@ datos/
 *.txt
 README.md
 02-Software-Admin/ansible/hosts.ini
+02-Software-Admin/ansible/local_playbook/
 *.bak
+
