@@ -1,0 +1,63 @@
+---
+- name: Configurar equipo nuevo (keys + sudoers + script)
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Verificar conectividad
+      ping:
+      register: ping_resultado
+      ignore_errors: yes
+
+    - name: Crear directorio .ssh en admin
+      ansible.builtin.file:
+        path: /home/admin/.ssh
+        state: directory
+        mode: '0700'
+        owner: admin
+        group: admin
+      when: ping_resultado is succeeded
+
+    - name: Agregar llave de informatica a authorized_keys
+      authorized_key:
+        user: admin
+        state: present
+        key: "{{ lookup('file', 'keys/id_ed25519_informatica.pub') }}"
+      when: ping_resultado is succeeded
+
+    - name: Agregar llave de controlador a authorized_keys
+      authorized_key:
+        user: admin
+        state: present
+        key: "{{ lookup('file', 'keys/id_ed25519_controlador.pub') }}"
+      when: ping_resultado is succeeded
+
+    - name: Crear regla sudoers para menu interactivo
+      ansible.builtin.copy:
+        dest: "/etc/sudoers.d/ansible_menu_commands"
+        content: |
+          # Permitir al usuario del menu apagar, reiniciar y ejecutar el script sin contraseña
+          admin ALL=(ALL) NOPASSWD: /sbin/shutdown, /sbin/reboot, /usr/bin/systemctl reboot, /usr/bin/systemctl poweroff, /etc/psico/fw_conexion.sh
+        mode: '0440'
+        validate: '/usr/sbin/visudo -cf %s'
+
+    - name: Crear carpeta /etc/psico
+      ansible.builtin.file:
+        path: /etc/psico
+        state: directory
+        owner: root
+        group: root
+        mode: '0770'
+
+    - name: Copiar fw_conexion.sh a /etc/psico/
+      ansible.builtin.copy:
+        src: /srv/labos/02-Software-Admin/fw_conexion.sh
+        dest: /etc/psico/fw_conexion.sh
+        owner: root
+        group: root
+        mode: '0770'
+
+    - name: Resultado
+      ansible.builtin.debug:
+        msg: "{{ inventory_hostname }}: {{ '✅ Configuracion completa' if ping_resultado is succeeded else '❌ Host no disponible' }}"
