@@ -3,6 +3,7 @@
   hosts: all
   become: yes  # Esto equivale a ejecutar los comandos con 'sudo'
   gather_facts: no # Acelera la ejecución al no empaquetar datos del sistema
+  serial: 5 # 5 Equipos a la vez
 
   tasks:
     - name: Ejecutar apt update y apt upgrade
