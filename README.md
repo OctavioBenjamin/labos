@@ -33,4 +33,4 @@ Para una guía detallada sobre la instalación, operación y resolución de prob
 - [Manual del Menú de Gestión](./documentacion/tutoriales-básicos🎓/guia-uso-menu.md)
 
 ---
-**Desarrollado para la Facultad de Psicología - UNC**
+**Desarrollado en 2025 para la Facultad de Psicología - UNC**
